@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  centos:
+    image: centos:7
+    container_name: centos
+    tty: true
+
+  debian:
+    image: python:bullseye
+    container_name: debian
+    tty: true
+
