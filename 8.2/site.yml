@@ -1,0 +1,59 @@
+---
+
+- name: Install Clickhouse & Vector
+  hosts: clickhouse vector
+  handlers:
+
+  tasks:
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
+      when: ansible_hostname == "clickhouse-01"
+      tags: clickhouse
+
+    - block:
+        - name: Install clickhouse packages
+          ansible.builtin.yum:
+            name:
+              - clickhouse-common-static-{{ clickhouse_version }}.rpm
+              - clickhouse-client-{{ clickhouse_version }}.rpm
+              - clickhouse-server-{{ clickhouse_version }}.rpm
+
+        - name: restart clickhouse-server
+          ansible.builtin.command: "/etc/init.d/clickhouse-server restart"
+
+        - name: Create database
+          ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+          register: create_db
+          failed_when: create_db.rc != 0 and create_db.rc !=82
+          changed_when: create_db.rc == 0
+      when: ansible_hostname == "clickhouse-01"
+      tags: clickhouse
+
+    - block:
+       - name: Download vector rpm
+         ansible.builtin.get_url:
+           url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.{{ vector_arch }}.rpm"
+           dest: "/tmp/vector-{{ vector_version }}.rpm"
+
+       - name: Install vector rpm
+         ansible.builtin.yum:
+           name:
+             - /tmp/vector-{{ vector_version }}.rpm
+
+       - name: Vector version
+         ansible.builtin.shell: "vector --version"
+         register: vector_info
+
+       - ansible.builtin.debug:
+           var: vector_info.stdout
+      when: ansible_hostname == "vector-01"
+      tags: vector
