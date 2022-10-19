@@ -1,0 +1,12 @@
+server {
+    listen       80;
+    server_name  {{ ansible_host }};
+
+    access_log  /var/log/nginx/access.log  main;
+
+    location / {
+        root   {{  light_home }};
+        index  index.html index.htm;
+    }
+
+}

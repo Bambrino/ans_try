@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  clickhouse-01:
+    image: bambrino/centos7:v1.0
+    container_name: clickhouse-01
+    hostname: clickhouse-01
+    tty: true
+    network_mode: "host"
+
+  vector-01:
+    image: bambrino/centos7:v1.0
+    container_name: vector-01
+    hostname: vector-01
+    tty: true
+    network_mode: "host"
+
+  light-01:
+    image: bambrino/centos7:v1.0
+    container_name: light-01
+    hostname: light-01
+    tty: true
+    network_mode: "host"
