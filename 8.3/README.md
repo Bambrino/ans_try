@@ -1,4 +1,4 @@
-## 08.02 Работа с Playbook
+## 08.03 Использование Yandex Cloud
 
 Сделано:
  - docker-compose добавлен контейнер для lighthouse, использован network_mode: "host" для всех контейнеров
