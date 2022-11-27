@@ -1,15 +1,16 @@
 ---
+
 - name: Install clickhouse
   hosts: clickhouse
   roles:
-  - click-role
+  - clickhouse
 
 - name: Install vector
   hosts: vector01
   roles:
-  - vector-role
+    - role: vector-role
 
 - name: Install lighthouse
   hosts: light01
   roles:
-  - lighthouse-role
+    - role: lighthouse-role
