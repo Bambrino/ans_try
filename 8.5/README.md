@@ -206,7 +206,29 @@ INFO     Pruning extra files from scenario ephemeral directory
 <br>
 
 3) Создан сценарий для CentOS8 - "выпадания" с ошибкой на разных образах разбирались на вэбинаре, собрал свой образ.
-```molecule test -s centos_8```
+
+4) Создан assert:
+```yaml
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: 'Include vars'
+    ansible.builtin.include_vars:
+      file: ../../defaults/main.yml
+      name: vector
+  - name: 'Get version'
+    ansible.builtin.command: vector \--version
+    changed_when: false
+    register: vector_std
+  - name: 'Check version'
+    ansible.builtin.assert:
+      that:
+        - "'{{ vector.vector_version }}' in vector_std.stdout"
+      success_msg: "{{ vector_std.stdout }}"
+```
+5) Запуск ```molecule test -s centos_8```
   <details>
       <summary> Полный вывод </summary>
 
@@ -370,27 +392,6 @@ INFO     Pruning extra files from scenario ephemeral directory
 </details>
 <br>
 
-4) Создан assert:
-```yaml
----
-- name: Verify
-  hosts: all
-  gather_facts: false
-  tasks:
-  - name: 'Include vars'
-    ansible.builtin.include_vars:
-      file: ../../defaults/main.yml
-      name: vector
-  - name: 'Get version'
-    ansible.builtin.command: vector \--version
-    changed_when: false
-    register: vector_std
-  - name: 'Check version'
-    ansible.builtin.assert:
-      that:
-        - "'{{ vector.vector_version }}' in vector_std.stdout"
-      success_msg: "{{ vector_std.stdout }}"
-```
 
 5) Опубликовано с тегом <a href="https://github.com/Bambrino/vector_role/tree/0.1.0">0.1.0</a>
 
