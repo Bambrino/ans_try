@@ -398,8 +398,17 @@ INFO     Pruning extra files from scenario ephemeral directory
 #### Tox
 
 1) Скачаны указанные файлы tox.ini и tox-requiremets.txt
-2) Запуск ```docker run --privileged=True -v ~/dz/7.1/ans_try/8.5/roles/vector_role:/opt/vector_role -w /opt/vector_role -it aragast/netology:latest /bin/bash``` выдал ошибку об отсутствии сценария compatibility
+2) Запуск \
+```docker run --privileged=True -v ~/dz/7.1/ans_try/8.5/roles/vector_role:/opt/vector_role -w /opt/vector_role -it aragast/netology:latest /bin/bash``` выдал ошибку об отсутствии сценария compatibility
 3) Создан сценарий ```molecule init scenario compatibility --driver-name podman```
+```yaml
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - converge
+    - destroy
+```
 4) Повторный запуск tox прошел успешно:
 ```shell
 ...
