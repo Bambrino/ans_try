@@ -110,32 +110,6 @@ content: 'some strings here'
 vvk@bubuntu:~/dz/7.1/ans_try/8.6$ ansible-playbook site.yml 
 [WARNING]: No inventory was parsed, only implicit localhost is available
 [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-ERROR! couldn't resolve module/action 'my_own_namespace.yandex_elk.my_module'. This often indicates a misspelling, missing collection, or incorrect module path.
-
-The error appears to be in '/home/vvk/dz/7.1/ans_try/8.6/site.yml': line 6, column 7, but may
-be elsewhere in the file depending on the exact syntax problem.
-
-The offending line appears to be:
-
-  tasks:
-    - name: Run my_module
-      ^ here
-vvk@bubuntu:~/dz/7.1/ans_try/8.6$ ansible-playbook site.yml 
-[WARNING]: No inventory was parsed, only implicit localhost is available
-[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-ERROR! couldn't resolve module/action 'my_own_namespace.yandex_elk.my_module'. This often indicates a misspelling, missing collection, or incorrect module path.
-
-The error appears to be in '/home/vvk/dz/7.1/ans_try/8.6/site.yml': line 6, column 5, but may
-be elsewhere in the file depending on the exact syntax problem.
-
-The offending line appears to be:
-
-  tasks:
-  - name: Run my_module
-    ^ here
-vvk@bubuntu:~/dz/7.1/ans_try/8.6$ ansible-playbook site.yml 
-[WARNING]: No inventory was parsed, only implicit localhost is available
-[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
 
 PLAY [Single task pb] ***********************************************************************************************************************************************************
 
